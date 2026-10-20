@@ -1,5 +1,131 @@
-This is a placeholder for the Windows binary artifact.
 
-Actual binary: twrpbuilder.exe
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
 
-Replace this file with the compiled Windows executable when it is available.
+#define PROJECT "twrp-centura"
+
+static void pause_screen(void) {
+    printf("\nPress Enter to continue...");
+    getchar();
+}
+
+static void create_folder(const char *path) {
+    if (CreateDirectoryA(path, NULL) ||
+        GetLastError() == ERROR_ALREADY_EXISTS) {
+        printf("[OK] %s\n", path);
+    } else {
+        printf("[ERROR] Could not create %s\n", path);
+    }
+}
+
+static void create_project(void) {
+    create_folder(PROJECT);
+    create_folder(PROJECT "\\device");
+    create_folder(PROJECT "\\device\\samsung");
+    create_folder(PROJECT "\\device\\samsung\\centura");
+    create_folder(PROJECT "\\kernel");
+    create_folder(PROJECT "\\vendor");
+    create_folder(PROJECT "\\output");
+    create_folder(PROJECT "\\manifests");
+}
+
+static void create_manifest(void) {
+    char path[MAX_PATH];
+    snprintf(path, sizeof(path),
+             PROJECT "\\manifests\\twrp-centura.xml");
+
+    FILE *file = fopen(path, "w");
+    if (!file) {
+        printf("[ERROR] Cannot write manifest.\n");
+        return;
+    }
+
+    fprintf(file,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<manifest>\n"
+        "  <!-- Samsung Galaxy Centura SCH-S738C -->\n"
+        "  <!-- Target: Android 4.0.4 ICS -->\n"
+        "  <!-- Add verified repository projects here. -->\n"
+        "</manifest>\n");
+
+    fclose(file);
+    printf("[OK] Created %s\n", path);
+}
+
+static void check_tools(void) {
+    printf("\nChecking available tools...\n");
+    printf("\nGit:\n");
+    system("git --version");
+    printf("\nADB:\n");
+    system("adb version");
+    printf("\nPython:\n");
+    system("python --version");
+    printf("\nNote: Missing tools may not be installed or in PATH.\n");
+    printf("This does not verify device compatibility.\n");
+}
+
+static void instructions(void) {
+    printf("\nTWRP CENTURA BUILD NOTES\n");
+    printf("------------------------\n");
+    printf("Device: Samsung Galaxy Centura SCH-S738C\n");
+    printf("Target: Android 4.0.4 / legacy ARM device\n\n");
+    printf("This program creates project folders and a placeholder XML.\n");
+    printf("It does NOT build a recovery image or unlock the bootloader.\n");
+    printf("Samsung Download Mode typically uses Odin-compatible files;\n");
+    printf("do not flash unverified images to the phone.\n");
+}
+
+int main(void) {
+    int choice;
+
+    for (;;) {
+        system("cls");
+        printf("====================================\n");
+        printf("    TWRP CENTURA WINDOWS TOOLKIT\n");
+        printf("====================================\n");
+        printf("1. Create project folders\n");
+        printf("2. Generate XML manifest\n");
+        printf("3. Check installed tools\n");
+        printf("4. Open project folder\n");
+        printf("5. Show build notes\n");
+        printf("0. Exit\n\n");
+        printf("Select: ");
+
+        if (scanf("%d", &choice) != 1) {
+            int ch;
+            while ((ch = getchar()) != '\n' && ch != EOF) {}
+            continue;
+        }
+        getchar();
+
+        switch (choice) {
+            case 1:
+                create_project();
+                pause_screen();
+                break;
+            case 2:
+                create_manifest();
+                pause_screen();
+                break;
+            case 3:
+                check_tools();
+                pause_screen();
+                break;
+            case 4:
+                create_project();
+                ShellExecuteA(NULL, "open", PROJECT,
+                              NULL, NULL, SW_SHOW);
+                break;
+            case 5:
+                instructions();
+                pause_screen();
+                break;
+            case 0:
+                return 0;
+            default:
+                printf("Invalid choice.\n");
+                pause_screen();
+        }
+    }
+}
