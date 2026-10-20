@@ -1,0 +1,6 @@
+# Samsung Centura device properties
+ro.product.device=centura
+ro.product.model=SCH-S738C
+ro.vendor.product.device=centura
+ro.vendor.product.model=SCH-S738C
+ro.build.product=centura

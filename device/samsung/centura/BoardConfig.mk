@@ -1,0 +1,59 @@
+# Platform
+TARGET_BOARD_PLATFORM := msm7x27a
+TARGET_BOOTLOADER_BOARD_NAME := centura
+TARGET_NO_BOOTLOADER := true
+TARGET_NO_RADIOIMAGE := true
+
+# Architecture
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv7-a-neon
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_CPU_SMP := true
+TARGET_CPU_VARIANT := cortex-a5
+
+# Kernel / boot
+TARGET_PREBUILT_KERNEL := device/samsung/centura/kernel
+BOARD_KERNEL_BASE := 0x00200000
+BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+
+# Filesystem / partitions
+BOARD_BOOTIMAGE_PARTITION_SIZE := 10485760
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 10485760
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 536870912
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 2147483648
+BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
+BOARD_FLASH_BLOCK_SIZE := 4096
+
+# Recovery
+BOARD_HAS_NO_SELECT_BUTTON := true
+TARGET_USERIMAGES_USE_EXT4 := true
+BOARD_SUPPRESS_SECURE_ERASE := true
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_USE_CUSTOM_RECOVERY_FONT := "roboto_15x24.h"
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
+TARGET_RECOVERY_FSTAB := device/samsung/centura/recovery.fstab
+
+# Samsung-specific flags
+BOARD_USES_QCOM_HARDWARE := true
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
+
+# SELinux / security
+BOARD_SEPOLICY_DIRS += device/samsung/centura/sepolicy
+
+# Graphics / display
+USE_OPENGL_RENDERER := true
+TARGET_RECOVERY_LCD_BACKLIGHT_PATH := "/sys/class/backlight/panel/brightness"
+
+# TWRP extras
+RECOVERY_SDCARD_ON_DATA := true
+TW_HAS_DOWNLOAD_MODE := true
+TW_INCLUDE_CRYPTO := false
+TW_INCLUDE_FBE := false
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 162
+TW_THEME := portrait_hdpi

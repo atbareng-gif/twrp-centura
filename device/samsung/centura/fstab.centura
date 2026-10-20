@@ -1,0 +1,8 @@
+# device/samsung/centura/fstab.centura
+# Legacy Samsung Qualcomm mount file.
+# See recovery.fstab for the TWRP mount points.
+
+/dev/block/mmcblk0p9    /system    ext4    ro,barrier=1  wait
+/dev/block/mmcblk0p10   /data     ext4    nosuid,nodev,noatime,discard  wait,check
+/dev/block/mmcblk0p8    /cache    ext4    nosuid,nodev,noatime,discard  wait,check
+/dev/block/mmcblk0p11   /sdcard   vfat    nosuid,nodev,uid=1023,gid=1023,flush,fmask=0000,dmask=0000  wait
