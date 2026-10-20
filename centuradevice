@@ -1,0 +1,29 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <!-- Samsung Galaxy Centura SCH-S738C -->
+    <!-- TWRP Recovery Development -->
+
+    <remote
+        name="github"
+        fetch="https://github.com/" />
+
+    <default
+        remote="github"
+        revision="main"
+        sync-j="4" />
+
+    <!-- TWRP recovery source -->
+    <project
+        name="TeamWin/android_bootable_recovery"
+        path="bootable/recovery"
+        revision="android-9.0" />
+
+  
+    <project
+        name="atbareng-gif/android_device_samsung_centura"
+        path="device/samsung/centura"
+        revision="main" />
+
+</manifest>
+```
